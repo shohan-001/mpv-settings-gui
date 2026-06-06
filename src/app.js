@@ -26,7 +26,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadConfigs();
   await loadSystemInfo();
   switchTab('video');
+  initUpdateChecker();
 });
+
 
 // ── Setup Functions ──────────────────────────────────────────────────────────
 
@@ -1998,3 +2000,88 @@ function closeModal() {
   document.getElementById('modal-body').innerHTML = '';
   document.getElementById('modal-footer').innerHTML = '';
 }
+
+// ── Update Checker ───────────────────────────────────────────────────────────
+async function initUpdateChecker() {
+  const btnCheck = document.getElementById('btn-update-check');
+  const indicator = document.getElementById('update-indicator');
+  const currentVersion = '1.0.0'; // Current release tag
+
+  if (!btnCheck || !indicator) return;
+
+  // Click handler for manual check
+  btnCheck.addEventListener('click', async () => {
+    btnCheck.disabled = true;
+    btnCheck.textContent = 'Checking...';
+    
+    try {
+      const result = await api.checkForUpdates();
+      
+      btnCheck.disabled = false;
+      btnCheck.textContent = 'Check for updates';
+
+      if (result.success && result.latestVersion) {
+        const isNew = isNewerVersion(currentVersion, result.latestVersion);
+        if (isNew) {
+          showUpdateIndicator(result.latestVersion, result.releaseUrl);
+          showToast(`New version available: ${result.latestVersion}!`, 'success');
+        } else {
+          showToast(`You are running the latest version (v${currentVersion}).`, 'info');
+        }
+      } else {
+        showToast('Could not check for updates. Please check connection.', 'error');
+      }
+    } catch (err) {
+      btnCheck.disabled = false;
+      btnCheck.textContent = 'Check for updates';
+      showToast('Error checking for updates: ' + err.message, 'error');
+    }
+  });
+
+  // Click handler for the update indicator badge
+  indicator.addEventListener('click', () => {
+    const url = indicator.getAttribute('data-url');
+    if (url) {
+      api.openExternal(url);
+    }
+  });
+
+  // Run a quiet check on startup
+  try {
+    const result = await api.checkForUpdates();
+    if (result.success && result.latestVersion) {
+      if (isNewerVersion(currentVersion, result.latestVersion)) {
+        showUpdateIndicator(result.latestVersion, result.releaseUrl);
+      }
+    }
+  } catch (err) {
+    console.error('Quiet update check failed:', err);
+  }
+}
+
+function showUpdateIndicator(version, url) {
+  const btnCheck = document.getElementById('btn-update-check');
+  const indicator = document.getElementById('update-indicator');
+  
+  if (btnCheck) btnCheck.classList.add('hidden');
+  if (indicator) {
+    indicator.classList.remove('hidden');
+    indicator.setAttribute('data-url', url);
+    indicator.title = `New version ${version} available! Click to download.`;
+    indicator.textContent = `✨ Update to ${version}`;
+  }
+}
+
+function isNewerVersion(current, latest) {
+  const clean = (v) => v.replace(/^v/, '').split('.').map(Number);
+  const cParts = clean(current);
+  const lParts = clean(latest);
+  for (let i = 0; i < Math.max(cParts.length, lParts.length); i++) {
+    const cVal = cParts[i] || 0;
+    const lVal = lParts[i] || 0;
+    if (lVal > cVal) return true;
+    if (cVal > lVal) return false;
+  }
+  return false;
+}
+

@@ -401,6 +401,57 @@ button, input, select, textarea {
   white-space: nowrap;
 }
 
+.app-version-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.app-version {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.btn-update-check {
+  background: transparent;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-update-check:hover {
+  background: rgba(46, 149, 153, 0.15);
+  color: var(--accent-light);
+}
+
+.update-indicator {
+  background: linear-gradient(135deg, var(--warning-color), var(--primary-color));
+  color: #0f0f17;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(247, 220, 104, 0.4);
+  animation: updatePulse 2s infinite ease-in-out;
+  display: inline-flex;
+  align-items: center;
+}
+
+@keyframes updatePulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; box-shadow: 0 0 12px rgba(247, 220, 104, 0.6); }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+
 /* ──────────────────────────────────────────────────────────────────────────
  * CONTENT AREA & CONTAINERS
  * ────────────────────────────────────────────────────────────────────────── */

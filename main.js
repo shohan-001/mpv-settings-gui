@@ -440,7 +440,39 @@ function registerIpcHandlers() {
       backupDir: BACKUP_DIR,
     };
   });
+
+  // ─ Check for updates ─
+  ipcMain.handle('check-for-updates', async () => {
+    try {
+      const response = await fetch('https://api.github.com/repos/shohan-001/mpv-settings-gui/releases/latest', {
+        headers: { 'User-Agent': 'MPV-Settings-GUI-App' }
+      });
+      if (!response.ok) {
+        throw new Error(`GitHub API returned status ${response.status}`);
+      }
+      const data = await response.json();
+      return {
+        success: true,
+        latestVersion: data.tag_name,
+        releaseUrl: data.html_url,
+        releaseNotes: data.body,
+      };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  });
+
+  // ─ Open external URL ─
+  ipcMain.handle('open-external', async (_event, url) => {
+    try {
+      await shell.openExternal(url);
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  });
 }
+
 
 // ── App lifecycle ─────────────────────────────────────────────────────────────
 

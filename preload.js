@@ -125,7 +125,21 @@ contextBridge.exposeInMainWorld('mpvConfig', {
    */
   getConfigPaths: () => ipcRenderer.invoke('get-config-paths'),
 
+  /**
+   * Check for application updates on GitHub releases
+   * @returns {Promise<{success: boolean, latestVersion?: string, releaseUrl?: string, error?: string}>}
+   */
+  checkForUpdates: () => ipcRenderer.invoke('check-for-updates'),
+
+  /**
+   * Open an external URL in the default browser
+   * @param {string} url - The URL to open
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  openExternal: (url) => ipcRenderer.invoke('open-external', url),
+
   // ── Menu event listeners ──────────────────────────────────────────────────
+
 
   /**
    * Register a callback for menu-triggered save events
