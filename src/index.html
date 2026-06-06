@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:;">
+  <title>MPV Settings Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header id="app-header">
+      <div class="header-left">
+        <div class="logo-container">
+          <div class="logo-icon">▶</div>
+          <h1 class="logo-text">MPV<span class="logo-accent">Config</span></h1>
+        </div>
+      </div>
+      <div class="header-center">
+        <div class="search-container" id="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="search-input" placeholder="Search settings..." autocomplete="off">
+          <kbd class="search-kbd">Ctrl+K</kbd>
+          <div id="search-results" class="search-results hidden"></div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="header-btn" id="btn-launch-mpv" title="Launch MPV">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Launch MPV</span>
+        </button>
+        <button class="header-btn btn-save" id="btn-save" title="Save Configuration (Ctrl+S)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span>Save</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div id="main-layout">
+      <!-- Sidebar -->
+      <nav id="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Settings</div>
+          <ul id="sidebar-nav" class="sidebar-nav">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Tools</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="#" class="sidebar-link" data-tab="guide">
+                <span class="sidebar-icon">🎮</span>
+                <span class="sidebar-label">Controls Guide</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-tab="keybindings">
+                <span class="sidebar-icon">⌨️</span>
+                <span class="sidebar-label">Key Bindings</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-tab="playlist">
+                <span class="sidebar-icon">📋</span>
+                <span class="sidebar-label">Playlist Manager</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-tab="profiles">
+                <span class="sidebar-icon">📦</span>
+                <span class="sidebar-label">Profiles</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-tab="presets">
+                <span class="sidebar-icon">✨</span>
+                <span class="sidebar-label">Presets</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-tab="preview">
+                <span class="sidebar-icon">👁️</span>
+                <span class="sidebar-label">Config Preview</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-tab="backups">
+                <span class="sidebar-icon">💾</span>
+                <span class="sidebar-label">Backups</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-footer">
+          <div class="config-path" title="~/.config/mpv/mpv.conf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>~/.config/mpv/mpv.conf</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <main id="content">
+        <div id="content-area">
+          <!-- Dynamically populated -->
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast-container"></div>
+
+    <!-- Modal overlay -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title"></h3>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div id="modal-body" class="modal-body"></div>
+        <div id="modal-footer" class="modal-footer"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

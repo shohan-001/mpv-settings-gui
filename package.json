@@ -1,0 +1,46 @@
+{
+  "name": "mpv-settings-gui",
+  "version": "1.0.0",
+  "description": "A premium GUI settings manager for the MPV media player",
+  "main": "main.js",
+  "homepage": "https://github.com/shohan/mpv-settings-gui",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "dist": "electron-builder --linux"
+  },
+  "keywords": [
+    "mpv",
+    "gui",
+    "settings",
+    "media-player",
+    "configuration"
+  ],
+  "author": {
+    "name": "Shohan",
+    "email": "shohan@example.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^26.15.0"
+  },
+  "build": {
+    "appId": "com.mpv.settingsgui",
+    "productName": "MPVConfig",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Utility",
+      "maintainer": "Shohan <shohan@example.com>"
+    }
+  }
+}
