@@ -27,6 +27,8 @@ This utility serves as a standalone companion app for the official MPV player, l
 - ✨ **Preset Profiles**: Apply presets (High Quality, Fast Performance, Anime Optimized, Low Latency, or Defaults) instantly.
 - 🔍 **Global Search**: Search settings by name, keyword, or description, with automatic scrolling and glowing card animations.
 - 🖥️ **System Info**: Detects your OS, GPU, display, audio devices, and MPV version to preview hardware compatibility before player launch.
+- ⚡ **Auto-Update Checker**: Displays the current app version and features a background update checker that calls the GitHub Releases API. If a newer release is found, a glowing, pulsing badge appears in the sidebar footer to let you download it with a single click.
+
 
 ---
 
